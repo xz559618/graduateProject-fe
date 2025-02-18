@@ -1,58 +1,10 @@
 import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Menu} from 'antd';
+import { Menu,Avatar } from 'antd';
 import './header.css';
-
-type MenuItem = Required<MenuProps>['items'][number];
-
-const items: MenuItem[] = [
-  {
-    label: 'Navigation One',
-    key: 'mail',
-    icon: <MailOutlined />,
-  },
-  {
-    label: 'Navigation Two',
-    key: 'app',
-    icon: <AppstoreOutlined />,
-    disabled: true,
-  },
-  {
-    label: 'Navigation Three - Submenu',
-    key: 'SubMenu',
-    icon: <SettingOutlined />,
-    children: [
-      {
-        type: 'group',
-        label: 'Item 1',
-        children: [
-          { label: 'Option 1', key: 'setting:1' },
-          { label: 'Option 2', key: 'setting:2' },
-        ],
-      },
-      {
-        type: 'group',
-        label: 'Item 2',
-        children: [
-          { label: 'Option 3', key: 'setting:3' },
-          { label: 'Option 4', key: 'setting:4' },
-        ],
-      },
-    ],
-  },
-  {
-    key: 'alipay',
-    label: (
-      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-        Navigation Four - Link
-      </a>
-    ),
-  },
-];
-
 const Header: React.FC = () => {
-  const [current, setCurrent] = useState('mail');
+  const [current, setCurrent] = useState('avature');
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
@@ -61,8 +13,17 @@ const Header: React.FC = () => {
 
   return <>
   <div className="menu-container">
-  <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
-  <a color="pink" className="extra-button">额外按钮</a>
+    <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" theme="dark" style={{width:"100%",display: 'flex', justifyContent: 'space-between' }}>
+      <div>
+      <Menu.Item key="personalInformation">个人信息记录</Menu.Item>
+      <Menu.Item key="resumeCreate">简历生成</Menu.Item>
+      <Menu.Item key="reviewLog">复盘日志</Menu.Item>
+      <Menu.Item key="deliveryTrack">投递追踪</Menu.Item>
+      </div>
+      <Menu.Item key="avature">
+      <Avatar size="small" icon={<UserOutlined />} />
+      </Menu.Item>
+    </Menu>
   </div>
   </>;
 };

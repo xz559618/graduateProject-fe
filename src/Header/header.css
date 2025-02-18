@@ -19,7 +19,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    height: 10%;
+    height: 49px;
     font-size: large;
     display: flex;
     background-color: #000000; 
@@ -27,7 +27,7 @@
 .menuNoLogin-container .title {
     display: flex;
     align-items: center;
-    margin-left: 17%;
+    margin-left: 25%;
     color:rgb(110, 226, 187);
     font-family: 'Microsft JhengHei';
     font-weight: 700;
