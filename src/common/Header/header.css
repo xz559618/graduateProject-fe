@@ -34,3 +34,14 @@
     font-size: 23px;
     letter-spacing: 2px;
 }
+
+.title-container{
+    display: flex;
+    align-items: center;
+    color:rgb(255, 255, 255);
+    /* background-color: #000000; */
+    font-family: 'Microsft JhengHei';
+    font-weight: 700;
+    font-size: 23px;
+    letter-spacing: 2px;
+}

@@ -1,8 +1,9 @@
 // import { useState } from 'react'
-import HeaderNoLogin from '../Header/headerNologin'
+import './Login.css'
+import HeaderNoLogin from '../../common/Header/headerNologin'
 import { Input, Flex, Button } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import background from '../assets/background.svg'
+import background from '../../assets/background.svg'
 import { Link } from 'react-router-dom';
 
 // import {Button} from 'antd'
@@ -39,10 +40,10 @@ function Login() {
               />
               <span>
               <Button type="primary" style={{right:10}}>
-              <Link to="/login">返回</Link>
+              <Link to="/home">登录</Link>
               </Button>
-              <Button type="default" href="https://ant.design" target="_blank">
-                注册
+              <Button type="default">
+              <Link to="/register">注册</Link>
               </Button>
               </span>
             </Flex>

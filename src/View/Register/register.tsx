@@ -1,9 +1,8 @@
 // import { useState } from 'react'
-import './Login.css'
-import HeaderNoLogin from '../Header/headerNologin'
+import HeaderNoLogin from '../../common/Header/headerNologin'
 import { Input, Flex, Button } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import background from '../assets/background.svg'
+import background from '../../assets/background.svg'
 import { Link } from 'react-router-dom';
 
 // import {Button} from 'antd'
@@ -11,7 +10,7 @@ const imgStyle: React.CSSProperties = {
   display: 'block',
   width: '50%',
 };
-function Login() {
+function Register() {
 //   const [count, setCount] = useState(0)
 
   return (
@@ -40,10 +39,10 @@ function Login() {
               />
               <span>
               <Button type="primary" style={{right:10}}>
-              <Link to="/home">登录</Link>
+              <Link to="/login">返回</Link>
               </Button>
-              <Button type="default">
-              <Link to="/register">注册</Link>
+              <Button type="default" href="https://ant.design" target="_blank">
+                注册
               </Button>
               </span>
             </Flex>
@@ -54,4 +53,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Register
