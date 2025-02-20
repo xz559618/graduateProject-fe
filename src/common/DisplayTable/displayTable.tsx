@@ -41,7 +41,6 @@ interface ColumnTypeWithSearch<DataType> extends TableColumnType<DataType> {
 interface DiplayTableProps {
   columns: ColumnTypeWithSearch<DataType>[];
   data: DataType[];
-  onChange?: TableProps<DataType>['onChange'];
 }
 
 const DiplayTable: React.FC<DiplayTableProps> = ({ columns, data, onChange }) => {
@@ -142,6 +141,7 @@ const DiplayTable: React.FC<DiplayTableProps> = ({ columns, data, onChange }) =>
         text
       ),
   });
+
 
   const columnsWithSearch = columns.map((col) => ({
     ...col,

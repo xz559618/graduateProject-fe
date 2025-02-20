@@ -15,7 +15,6 @@ const Header: React.FC = () => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', backgroundColor: '#000000' }}>
-
       <Menu
         onClick={handleClick}
         selectedKeys={[current]}
@@ -58,7 +57,7 @@ const Header: React.FC = () => {
           <Avatar icon={<UserOutlined/>}></Avatar>
         </Menu.Item>
       </Menu>
-    </div>
+      </div>
   );
 };
 
