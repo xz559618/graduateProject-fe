@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card } from "antd";
-import AddInfo from "./component/addInfo"; // 修改为 PascalCase
+import AddInfo from "./component/record"; // 修改为 PascalCase
 
 const tabListNoTitle = [
   {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { List, Typography } from "antd";
 import { RightOutlined } from "@ant-design/icons";
-import Detail from "../component/detail";
+import DetailList from "./detailList";
 
 const data = [
   "校园经历",
@@ -24,7 +24,8 @@ const AddInfo: React.FC = () => {
   };
 
   if (currentItem) {
-    return <Detail item={currentItem} onBack={handleBackClick} />;
+    console.log("33", currentItem);
+    return <DetailList item={currentItem} onBack={handleBackClick} />;
   }
   return (
     <>
