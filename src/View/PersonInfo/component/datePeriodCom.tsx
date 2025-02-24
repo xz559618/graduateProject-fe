@@ -9,6 +9,7 @@ interface DatePeriodComProps {
   time: string;
   description: string;
   contribution: string;
+  handleEditClick: (item?: any) => void;
 }
 
 const DatePeriodCom: React.FC<DatePeriodComProps> = ({
@@ -17,6 +18,7 @@ const DatePeriodCom: React.FC<DatePeriodComProps> = ({
   time,
   description,
   contribution,
+  handleEditClick,
 }) => {
   return (
     <div style={{ marginBottom: 16 }}>
@@ -26,7 +28,13 @@ const DatePeriodCom: React.FC<DatePeriodComProps> = ({
           <Title level={4}>{company}</Title>
         </Col>
         <Col>
-          <Button variant="text" color="primary" onClick={() => {}}>
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => {
+              handleEditClick();
+            }}
+          >
             编辑
           </Button>
           <Button color="danger" variant="text">

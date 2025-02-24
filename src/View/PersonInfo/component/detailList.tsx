@@ -48,7 +48,7 @@ const DetailList: React.FC<DetailInfoProps> = ({ item, onBack }) => {
       {isEditing ? (
         <EditForm item={currentItem} theme={item} onCancel={handleCancel} />
       ) : (
-        <DetailListItem item={item} />
+        <DetailListItem item={item} handleEditClick={handleEditClick} />
       )}
     </div>
   );
