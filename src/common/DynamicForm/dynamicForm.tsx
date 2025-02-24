@@ -13,7 +13,7 @@ interface FieldConfig {
   dataSource?: any[];
   onChange?: TableProps<any>["onChange"];
   buttonText?: string;
-  buttonOnClick?: () => void;
+  buttonOnClick?: (formData: any) => void;
 }
 
 interface DynamicFormProps {
@@ -26,6 +26,8 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ fields, formStyle }) => {
 
   // 收集所有按钮字段
   const buttonFields = fields.filter((field) => field.type === "button");
+
+  const formData = form.getFieldsValue();
 
   return (
     <Form form={form} layout="vertical" style={formStyle}>
@@ -86,7 +88,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ fields, formStyle }) => {
               <Button
                 key={buttonIndex}
                 type="primary"
-                onClick={buttonField.buttonOnClick}
+                onClick={() => buttonField.buttonOnClick?.(formData)}
               >
                 {buttonField.buttonText}
               </Button>

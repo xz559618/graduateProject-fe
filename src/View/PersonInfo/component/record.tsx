@@ -4,12 +4,13 @@ import { RightOutlined } from "@ant-design/icons";
 import DetailList from "./detailList";
 
 const data = [
-  "校园经历",
-  "实习经历",
-  "项目经理",
-  "个人信息",
-  "技能",
-  "获得奖励",
+  "个人基本信息",
+  "工作/实习经历",
+  "项目经历",
+  "资格证书",
+  "获得荣誉",
+  "社团/组织经历",
+  "专业技能",
 ];
 
 const AddInfo: React.FC = () => {
@@ -24,7 +25,6 @@ const AddInfo: React.FC = () => {
   };
 
   if (currentItem) {
-    console.log("33", currentItem);
     return <DetailList item={currentItem} onBack={handleBackClick} />;
   }
   return (
@@ -42,7 +42,6 @@ const AddInfo: React.FC = () => {
             onClick={() => handleItemClick(item)}
           >
             {item}
-            <RightOutlined />
           </List.Item>
         )}
       />

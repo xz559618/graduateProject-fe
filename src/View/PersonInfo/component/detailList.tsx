@@ -1,7 +1,7 @@
 // src/View/PersonInfo/component/Detail.tsx
 import React, { useState } from "react";
-import { LeftOutlined, PlusOutlined } from "@ant-design/icons";
-import DetailInfo from "./detailListItem"; // 确保使用默认导入
+import { EditOutlined, LeftOutlined, PlusOutlined } from "@ant-design/icons";
+import DetailListItem from "./detailListItem"; // 确保使用默认导入
 import EditForm from "./editForm"; // 假设 EditForm 是默认导出的组件
 
 interface DetailInfoProps {
@@ -17,7 +17,9 @@ const DetailList: React.FC<DetailInfoProps> = ({ item, onBack }) => {
     setCurrentItem(item);
     setIsEditing(true);
   };
-
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
   const handleBackClick = () => {
     setCurrentItem(null);
     if (!isEditing) {
@@ -33,13 +35,20 @@ const DetailList: React.FC<DetailInfoProps> = ({ item, onBack }) => {
         <LeftOutlined onClick={handleBackClick} />
         {isEditing ? null : item}
         {isEditing ? null : (
-          <PlusOutlined onClick={() => handleEditClick(item)} />
+          <>
+            {item === "个人基本信息" && (
+              <EditOutlined onClick={() => handleEditClick(item)} />
+            )}
+            {item !== "个人基本信息" && (
+              <PlusOutlined onClick={() => handleEditClick(item)} />
+            )}
+          </>
         )}
       </div>
       {isEditing ? (
-        <EditForm item={currentItem} theme={item} onBack={onBack} />
+        <EditForm item={currentItem} theme={item} onCancel={handleCancel} />
       ) : (
-        <DetailInfo />
+        <DetailListItem item={item} />
       )}
     </div>
   );

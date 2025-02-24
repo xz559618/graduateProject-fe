@@ -5,7 +5,7 @@ import AddInfo from "./component/record"; // 修改为 PascalCase
 const tabListNoTitle = [
   {
     key: "add",
-    label: "记录",
+    label: "个人信息",
   },
   {
     key: "search",
