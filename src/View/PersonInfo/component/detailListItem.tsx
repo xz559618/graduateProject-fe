@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Collapse, CollapseProps, List } from "antd";
 import EditForm from "./editForm";
 import ReadForm from "./readForm";
+import DatePeriodCom from "./datePeriodCom";
 
 interface detailListItemProps {
   item: any;
@@ -31,7 +32,15 @@ const items: CollapseProps["items"] = [
   {
     key: "1",
     label: "班长",
-    children: <p>{text}</p>,
+    children: (
+      <DatePeriodCom
+        company="阿里巴巴"
+        position="前端开发工程师"
+        time="2020年1月 - 至今"
+        description="负责公司内部管理系统的前端开发工作，使用React和Ant Design进行开发。"
+        contribution="优化了系统的性能，提升了用户体验，并参与了多个重要功能的开发。"
+      />
+    ),
   },
   {
     key: "2",
@@ -42,24 +51,6 @@ const items: CollapseProps["items"] = [
     key: "3",
     label: "学生会会长",
     children: <p>{text}</p>,
-  },
-];
-
-const formFields: DynamicFormField[] = [
-  {
-    name: "name",
-    label: "姓名",
-    type: "text",
-    rules: [{ required: true, message: "请输入姓名" }],
-  },
-  {
-    name: "sex",
-    label: "性别",
-    type: "select",
-    options: [
-      { value: "男", label: "男" },
-      { value: "女", label: "女" },
-    ],
   },
 ];
 
