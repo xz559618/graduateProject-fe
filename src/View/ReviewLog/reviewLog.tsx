@@ -2,18 +2,17 @@
 // import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 // import background from '../assets/background.svg'
 // import { Link } from 'react-router-dom';
-
+import DisplayTable from "./component/DiplayTable";
 function ReviewLog() {
-    //   const [count, setCount] = useState(0)
-    
-      return (
-        <>
-          <div>
-            复盘日志
-          </div>
-        </>
-      )
-    }
-    
-    export default ReviewLog
-    
+  //   const [count, setCount] = useState(0)
+
+  return (
+    <>
+      <div>
+        <DisplayTable />
+      </div>
+    </>
+  );
+}
+
+export default ReviewLog;

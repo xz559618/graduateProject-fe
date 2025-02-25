@@ -5,7 +5,7 @@ import DynamicForm from "../../../common/DynamicForm/dynamicForm"; // Adjust the
 interface EditFormProps {
   item?: any;
   theme?: any;
-  onCancel: () => void;
+  onCancel?: () => void;
 }
 
 interface FieldConfig {
@@ -67,11 +67,43 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
         },
       },
     ];
+  } else {
+    fields = [
+      {
+        type: "input",
+        label: "姓名",
+        name: "谢真",
+      },
+      {
+        type: "input",
+        label: "电话",
+        name: "10000000000",
+      },
+      {
+        type: "input",
+        label: "邮箱",
+        name: "10000000000@163.com",
+      },
+      {
+        type: "button",
+        buttonText: "保存",
+        buttonOnClick: (formData) => {
+          console.log("表单数据:", formData); // 打印表单数据
+        },
+      },
+      {
+        type: "button",
+        buttonText: "取消",
+        buttonOnClick: () => {
+          onCancel(); // 打印表单数据
+        },
+      },
+    ];
   }
   return (
     <>
-      11{item}
-      {theme}
+      <div>{item.label}</div> {/* 渲染 label */}
+      <div>{item.children ? item.children : item}</div> {/* 渲染 children */}
       <DynamicForm
         fields={fields}
         formStyle={formStyle}
