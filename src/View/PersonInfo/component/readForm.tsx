@@ -11,7 +11,7 @@ const ReadForm: React.FC<EditFormProps> = ({ item, theme }) => {
   console.log("eritem", item);
   return (
     <>
-      <Descriptions items={item} />
+      <Descriptions items={item} style={{ margin: "20px" }} />
     </>
   );
 };
