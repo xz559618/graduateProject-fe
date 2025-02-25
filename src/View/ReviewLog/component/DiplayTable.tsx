@@ -54,11 +54,15 @@ const App: React.FC = () => {
   const [searchText, setSearchText] = useState<string>("");
   const [isConfigModalVisible, setIsConfigModalVisible] = useState(false);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isActionsVisible, setIsActionsVisible] = useState(false);
   const [form] = Form.useForm();
   const [addForm] = Form.useForm();
+  const [editForm] = Form.useForm();
   const [typeList, setTypeList] = useState<string[]>(
     Array.from(new Set(data.map((item) => item.type)))
   );
+  const [editingItem, setEditingItem] = useState<DataType | null>(null);
 
   const handleTypeChange = (value: string | undefined) => {
     setFilterType(value);
@@ -116,6 +120,36 @@ const App: React.FC = () => {
     form.setFieldsValue({ types: newTypes });
   };
 
+  const handleEdit = (item: DataType) => {
+    setEditingItem(item);
+    editForm.setFieldsValue(item);
+    setIsEditModalVisible(true);
+  };
+
+  const handleEditOk = () => {
+    editForm.validateFields().then((values) => {
+      const updatedData = data.map((item) =>
+        item.key === editingItem!.key ? { ...item, ...values } : item
+      );
+      setData(updatedData);
+      setIsEditModalVisible(false);
+      setEditingItem(null);
+    });
+  };
+
+  const handleEditCancel = () => {
+    setIsEditModalVisible(false);
+    setEditingItem(null);
+  };
+
+  const handleDelete = (key: React.Key) => {
+    setData(data.filter((item) => item.key !== key));
+  };
+
+  const toggleActionsVisibility = () => {
+    setIsActionsVisible(!isActionsVisible);
+  };
+
   const filteredData = data.filter((item) => {
     const matchesType = filterType ? item.type === filterType : true;
     const matchesSearch = item.question.includes(searchText);
@@ -124,7 +158,28 @@ const App: React.FC = () => {
 
   const items = filteredData.map((item) => ({
     key: item.key,
-    label: `${item.question} - ${item.type}`,
+    label: (
+      <div>
+        {item.question} - {item.type}
+        {isActionsVisible && (
+          <span style={{ float: "right" }}>
+            <Button type="link" onClick={() => handleEdit(item)}>
+              编辑
+            </Button>
+            <Popconfirm
+              title="确定删除这个问题吗?"
+              onConfirm={() => handleDelete(item.key)}
+              okText="是"
+              cancelText="否"
+            >
+              <Button type="link" danger>
+                删除
+              </Button>
+            </Popconfirm>
+          </span>
+        )}
+      </div>
+    ),
     children: <p>{item.answer}</p>,
   }));
 
@@ -153,7 +208,12 @@ const App: React.FC = () => {
         <Button type="primary" onClick={handleAdd} style={{ marginRight: 16 }}>
           添加问题
         </Button>
-        <Button onClick={handleConfig}>配置类型</Button>
+        <Button onClick={handleConfig} style={{ marginRight: 16 }}>
+          配置类型
+        </Button>
+        <Button type="default" onClick={toggleActionsVisibility}>
+          {isActionsVisible ? "隐藏操作" : "显示操作"}
+        </Button>
       </div>
       <Collapse defaultActiveKey={["1"]} ghost items={items} />
       <Modal
@@ -204,6 +264,42 @@ const App: React.FC = () => {
         onCancel={handleAddCancel}
       >
         <Form form={addForm} layout="vertical" name="form_in_add_modal">
+          <Form.Item
+            name="question"
+            label="问题"
+            rules={[{ required: true, message: "请输入问题" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="answer"
+            label="答案"
+            rules={[{ required: true, message: "请输入答案" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="type"
+            label="类型"
+            rules={[{ required: true, message: "请选择类型" }]}
+          >
+            <Select placeholder="选择类型">
+              {typeList.map((type) => (
+                <Option key={type} value={type}>
+                  {type}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="编辑问题"
+        visible={isEditModalVisible}
+        onOk={handleEditOk}
+        onCancel={handleEditCancel}
+      >
+        <Form form={editForm} layout="vertical" name="form_in_edit_modal">
           <Form.Item
             name="question"
             label="问题"
