@@ -13,6 +13,7 @@ import {
 
 const { Panel } = Collapse;
 const { Option } = Select;
+const { TextArea } = Input;
 
 type DataType = {
   key: React.Key;
@@ -24,8 +25,8 @@ type DataType = {
 const initialData: DataType[] = [
   {
     key: "1",
-    question: "问题1",
-    answer: "答案1",
+    question: "Vue生命周期",
+    answer: "beforeCreated —— 初始化，无法通过vm访问",
     type: "类型A",
   },
   {
@@ -180,7 +181,7 @@ const App: React.FC = () => {
         )}
       </div>
     ),
-    children: <p>{item.answer}</p>,
+    children: <pre>{item.answer}</pre>,
   }));
 
   return (
@@ -276,7 +277,7 @@ const App: React.FC = () => {
             label="答案"
             rules={[{ required: true, message: "请输入答案" }]}
           >
-            <Input />
+            <TextArea rows={4} />
           </Form.Item>
           <Form.Item
             name="type"
@@ -312,7 +313,7 @@ const App: React.FC = () => {
             label="答案"
             rules={[{ required: true, message: "请输入答案" }]}
           >
-            <Input />
+            <TextArea rows={4} />
           </Form.Item>
           <Form.Item
             name="type"

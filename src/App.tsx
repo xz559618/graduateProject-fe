@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import AI from "./common/AI/AI.tsx";
 import Login from "./View/Login/login.tsx";
@@ -10,15 +10,23 @@ import PersonSpace from "./View/PersonSpace/personSpace.tsx";
 import ResumeDesign from "./View/ResumeDesign/resumeDesign.tsx";
 import ReviewLog from "./View/ReviewLog/reviewLog.tsx";
 import ApplicationTrack from "./View/ApplicationTrack/applicationTrack.tsx";
+import HeaderNoLogin from "./common/Header/headerNologin.tsx";
 import "./App.css";
 
 function App() {
+  const [isLogin, setIsLogin] = useState(false);
+
+  // 定义更新登录状态的方法
+  const handleLogin = (status: boolean) => {
+    setIsLogin(status);
+  };
+
   return (
     <>
-      <Header />
+      {isLogin ? <Header /> : <HeaderNoLogin />}
       <div className="container">
         <Routes>
-          <Route path="/login" Component={Login} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/register" Component={Register} />
           <Route path="/home" Component={Home} />
           <Route path="/personInfo" Component={PersonInfo} />

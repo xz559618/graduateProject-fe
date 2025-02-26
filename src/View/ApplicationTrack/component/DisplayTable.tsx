@@ -1,12 +1,3 @@
-// interface DataType {
-//   key: string;
-//   company: string;
-//   position: number;
-//   location: string;
-//   address: string;
-//   state: string;
-// }
-
 import type {
   EditableFormInstance,
   ProColumns,
@@ -18,38 +9,38 @@ import React, { useRef, useState } from "react";
 
 type DataSourceType = {
   id: React.Key;
-  title?: string;
-  decs?: string;
   state?: string;
   created_at?: number;
   update_at?: number;
   children?: DataSourceType[];
-  company: string;
-  position: number;
-  location: string;
-  address: string;
+  company?: string;
+  position?: string;
+  location?: string;
+  address?: string;
 };
 
 const defaultData: DataSourceType[] = [
   {
     id: "624748504",
-    title: "活动名称一",
-    decs: "这个活动真好玩",
     state: "submitted",
     created_at: 1590486176000,
     update_at: 1590486176000,
+    company: "时代天使",
+    position: "前端开发",
+    location: "上海市杨浦区创智天地",
+    address: "http://gitlab.eainc.com/users/sign_in",
   },
   {
-    id: "624691229",
-    title: "活动名称二",
-    decs: "这个活动真好玩",
+    id: "624748505",
     state: "preExam",
-    created_at: 1590481162000,
-    update_at: 1590481162000,
+    created_at: 1590486176000,
+    update_at: 1590486176000,
+    company: "阿里巴巴",
+    position: "后端开发",
+    location: "杭州市西湖区",
+    address: "http://alibaba.com/careers",
   },
 ];
-
-let i = 0;
 
 const DisplayTable: React.FC = () => {
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() => []);
@@ -58,21 +49,49 @@ const DisplayTable: React.FC = () => {
   const formRef = useRef<ProFormInstance<any>>();
   const editorFormRef = useRef<EditableFormInstance<DataSourceType>>();
   const [dataSource, setDataSource] = useState<DataSourceType[]>(defaultData);
+
+  const statusOptions = [
+    { label: "已投递", value: "submitted" },
+    { label: "待笔试", value: "preExam" },
+    { label: "已笔试", value: "postExam" },
+    { label: "待面试", value: "preInterview" },
+    { label: "等待结果", value: "waiting" },
+    { label: "已淘汰", value: "eliminated" },
+    { label: "已offer", value: "offered" },
+  ];
+
   const columns: ProColumns<DataSourceType>[] = [
     {
-      title: "活动名称",
-      dataIndex: "title",
+      title: "公司名称",
+      dataIndex: "company",
       formItemProps: () => {
         return {
           rules: [{ required: true, message: "此项为必填项" }],
         };
       },
-      width: "30%",
+    },
+    {
+      title: "职位",
+      dataIndex: "position",
+    },
+    {
+      title: "地点",
+      dataIndex: "location",
     },
     {
       title: "状态",
       key: "state",
       dataIndex: "state",
+      valueType: "select",
+      valueEnum: {
+        submitted: { text: "已投递", status: "submitted" },
+        preExam: { text: "待笔试", status: "preExam" },
+        postExam: { text: "已笔试", status: "postExam" },
+        preInterview: { text: "待面试", status: "preInterview" },
+        waiting: { text: "等待结果", status: "waiting" },
+        eliminated: { text: "已淘汰", status: "eliminated" },
+        offered: { text: "已offer", status: "offered" },
+      },
       render: (_, record) => {
         let color = "";
         let text = "";
@@ -110,25 +129,32 @@ const DisplayTable: React.FC = () => {
 
         return <Tag color={color}>{text}</Tag>;
       },
-      filters: [
-        { text: "已投递", value: "submitted" },
-        { text: "待笔试", value: "preExam" },
-        { text: "已笔试", value: "postExam" },
-        { text: "待面试", value: "preInterview" },
-        { text: "等待结果", value: "waiting" },
-        { text: "已淘汰", value: "eliminated" },
-        { text: "已offer", value: "offered" },
-      ],
+      filters: statusOptions.map((option) => ({
+        text: option.label,
+        value: option.value,
+      })),
       onFilter: (value, record) => record.state === value,
     },
     {
-      title: "描述",
-      dataIndex: "decs",
+      title: "地址",
+      dataIndex: "address",
+      render: (text) => (
+        <a href={text} target="_blank" rel="noopener noreferrer">
+          {text}
+        </a>
+      ), // 将地址渲染为可点击的链接，并在新窗口中打开
     },
     {
-      title: "活动时间",
+      title: "创建时间",
       dataIndex: "created_at",
       valueType: "date",
+      editable: false, // 创建时间不可编辑
+    },
+    {
+      title: "更新时间",
+      dataIndex: "update_at",
+      valueType: "date",
+      editable: false, // 更新时间不可编辑
     },
     {
       title: "操作",
@@ -138,7 +164,7 @@ const DisplayTable: React.FC = () => {
         <a
           key="editable"
           onClick={() => {
-            action?.startEditable?.(record.id, record);
+            action?.startEditable?.(record.id);
           }}
         >
           编辑
@@ -195,7 +221,6 @@ const DisplayTable: React.FC = () => {
           x: 960,
         }}
         editableFormRef={editorFormRef}
-        headerTitle="可编辑表格"
         maxLength={5}
         name="table"
         controlled={controlled}
@@ -207,7 +232,11 @@ const DisplayTable: React.FC = () => {
           position !== "hidden"
             ? {
                 position: position as "top",
-                record: () => ({ id: (Math.random() * 1000000).toFixed(0) }),
+                record: () => ({
+                  id: (Math.random() * 1000000).toFixed(0),
+                  created_at: Date.now(),
+                  update_at: Date.now(),
+                }),
               }
             : false
         }
@@ -230,6 +259,14 @@ const DisplayTable: React.FC = () => {
           onChange: setEditableRowKeys,
           actionRender: (row, config, defaultDom) => {
             return [defaultDom.save, defaultDom.delete, defaultDom.cancel];
+          },
+          onSave: async (key, row) => {
+            const updatedData = dataSource.map((item) =>
+              item.id === key
+                ? { ...item, ...row, update_at: Date.now() }
+                : item
+            );
+            setDataSource(updatedData);
           },
         }}
       />
