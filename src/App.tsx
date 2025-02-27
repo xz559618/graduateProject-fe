@@ -24,7 +24,7 @@ function App() {
   return (
     <>
       {isLogin ? <Header /> : <HeaderNoLogin />}
-      <div className="container">
+      <div className="container" style={{ top: 46, position: "relative" }}>
         <Routes>
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/register" Component={Register} />

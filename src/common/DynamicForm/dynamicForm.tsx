@@ -1,10 +1,17 @@
 import React from "react";
 import { Form, Input, Button, Select, Table, DatePicker, Space } from "antd";
-import type { TableColumnsType, TableProps } from "antd";
+import type { TableColumnsType, TableProps, FormItemProps } from "antd";
+import TextArea from "antd/es/input/TextArea";
 
-type FieldType = "input" | "select" | "datePicker" | "table" | "button";
+type FieldType =
+  | "input"
+  | "select"
+  | "datePicker"
+  | "table"
+  | "button"
+  | "TextArea";
 
-interface FieldConfig {
+interface FieldConfig extends FormItemProps {
   type: FieldType;
   label?: string;
   name?: string;
@@ -14,55 +21,82 @@ interface FieldConfig {
   onChange?: TableProps<any>["onChange"];
   buttonText?: string;
   buttonOnClick?: (formData: any) => void;
+  value?: any;
+  initialValue?: any;
 }
 
 interface DynamicFormProps {
   fields: FieldConfig[];
   formStyle?: React.CSSProperties;
+  initialValues?: { [key: string]: any };
+  onSubmit?: (formData: any) => void;
 }
 
-const DynamicForm: React.FC<DynamicFormProps> = ({ fields, formStyle }) => {
+const DynamicForm: React.FC<DynamicFormProps> = ({
+  fields,
+  formStyle,
+  initialValues,
+  onSubmit,
+}) => {
   const [form] = Form.useForm();
+
+  // 设置表单的初始值
+  React.useEffect(() => {
+    if (initialValues) {
+      form.setFieldsValue(initialValues);
+    }
+  }, [form, initialValues]);
 
   // 收集所有按钮字段
   const buttonFields = fields.filter((field) => field.type === "button");
 
-  const formData = form.getFieldsValue();
+  const handleButtonClick = (buttonField: FieldConfig) => {
+    form
+      .validateFields()
+      .then((values) => {
+        if (buttonField.buttonOnClick) {
+          buttonField.buttonOnClick(values);
+        }
+        if (onSubmit) {
+          onSubmit(values);
+        }
+      })
+      .catch((errorInfo) => {
+        console.log("表单验证失败:", errorInfo);
+      });
+  };
 
   return (
-    <Form form={form} layout="vertical" style={formStyle}>
+    <Form
+      form={form}
+      layout="vertical"
+      style={formStyle}
+      initialValues={initialValues}
+    >
       {fields.map((field, index) => {
+        const commonProps = {
+          label: field.label,
+          name: field.name,
+          style: { width: field.width || "100%" },
+          initialValue: field.initialValue,
+        };
+
         switch (field.type) {
           case "input":
             return (
-              <Form.Item
-                label={field.label}
-                name={field.name}
-                key={index}
-                style={{ width: "50%" }}
-              >
+              <Form.Item {...commonProps} key={index}>
                 <Input />
               </Form.Item>
             );
           case "select":
             return (
-              <Form.Item
-                label={field.label}
-                name={field.name}
-                key={index}
-                style={{ width: "50%" }}
-              >
+              <Form.Item {...commonProps} key={index}>
                 <Select options={field.options} />
               </Form.Item>
             );
           case "datePicker":
             return (
-              <Form.Item
-                label={field.label}
-                name={field.name}
-                key={index}
-                style={{ width: "50%" }}
-              >
+              <Form.Item {...commonProps} key={index}>
                 <DatePicker />
               </Form.Item>
             );
@@ -74,6 +108,12 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ fields, formStyle }) => {
                 onChange={field.onChange}
                 key={index}
               />
+            );
+          case "TextArea":
+            return (
+              <Form.Item {...commonProps} key={index}>
+                <TextArea />
+              </Form.Item>
             );
           default:
             return null;
@@ -88,7 +128,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ fields, formStyle }) => {
               <Button
                 key={buttonIndex}
                 type="primary"
-                onClick={() => buttonField.buttonOnClick?.(formData)}
+                onClick={() => handleButtonClick(buttonField)}
               >
                 {buttonField.buttonText}
               </Button>

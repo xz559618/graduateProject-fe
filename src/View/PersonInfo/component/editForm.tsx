@@ -1,10 +1,9 @@
 import React from "react";
-import type { TableColumnsType, TableProps } from "antd";
 import DynamicForm from "../../../common/DynamicForm/dynamicForm"; // Adjust the import path as necessary
 
 interface EditFormProps {
   item?: any;
-  theme?: any;
+  theme?: string;
   onCancel?: () => void;
 }
 
@@ -12,7 +11,7 @@ interface FieldConfig {
   type: string;
   label?: string;
   name?: string;
-  options?: { label: string; value: number | string }[];
+  options?: { label: string; value: any }[];
   buttonText?: string;
   buttonOnClick?: (formData: any) => void;
 }
@@ -24,33 +23,50 @@ const formStyle = {
 
 const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
   console.log("item", item);
+
+  const getInitialValues = () => {
+    if (theme === "个人基本信息") {
+      return {
+        name: "谢真",
+        phone: "10000000000",
+        email: "10000000000@163.com",
+        wechat: "123456",
+        education: "硕士",
+      };
+    } else {
+      return item.children ? item.children.props : {};
+    }
+  };
+
+  const initialValues = getInitialValues();
+
   let fields: FieldConfig[] = [];
-  if (theme == "个人基本信息") {
+  if (theme === "个人基本信息") {
     fields = [
       {
         type: "input",
         label: "姓名",
-        name: "谢真",
+        name: "name",
       },
       {
         type: "input",
         label: "电话",
-        name: "10000000000",
+        name: "phone",
       },
       {
         type: "input",
         label: "邮箱",
-        name: "10000000000@163.com",
+        name: "email",
       },
       {
         type: "input",
         label: "微信",
-        name: "123456",
+        name: "wechat",
       },
       {
         type: "input",
         label: "最高学历",
-        name: "硕士",
+        name: "education",
       },
       {
         type: "button",
@@ -63,7 +79,7 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
         type: "button",
         buttonText: "取消",
         buttonOnClick: () => {
-          onCancel(); // 打印表单数据
+          onCancel && onCancel(); // 处理取消操作
         },
       },
     ];
@@ -71,18 +87,28 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
     fields = [
       {
         type: "input",
-        label: "姓名",
-        name: "谢真",
+        label: "公司",
+        name: "company",
       },
       {
         type: "input",
-        label: "电话",
-        name: "10000000000",
+        label: "职位",
+        name: "position",
       },
       {
         type: "input",
-        label: "邮箱",
-        name: "10000000000@163.com",
+        label: "时间",
+        name: "time",
+      },
+      {
+        type: "TextArea",
+        label: "描述",
+        name: "description",
+      },
+      {
+        type: "TextArea",
+        label: "贡献",
+        name: "contribution",
       },
       {
         type: "button",
@@ -95,19 +121,18 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
         type: "button",
         buttonText: "取消",
         buttonOnClick: () => {
-          onCancel(); // 打印表单数据
+          onCancel && onCancel(); // 处理取消操作
         },
       },
     ];
   }
+
   return (
     <>
-      <div>{item.label}</div> {/* 渲染 label */}
-      <div>{item.children ? item.children : item}</div> {/* 渲染 children */}
       <DynamicForm
         fields={fields}
         formStyle={formStyle}
-        style={{ width: "10%" }}
+        initialValues={initialValues}
       />
     </>
   );

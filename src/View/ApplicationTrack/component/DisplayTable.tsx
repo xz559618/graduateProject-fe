@@ -91,6 +91,7 @@ const DisplayTable: React.FC = () => {
         waiting: { text: "等待结果", status: "waiting" },
         eliminated: { text: "已淘汰", status: "eliminated" },
         offered: { text: "已offer", status: "offered" },
+        unKnown: { text: "长期未响应", status: "unKnown" },
       },
       render: (_, record) => {
         let color = "";
@@ -124,6 +125,10 @@ const DisplayTable: React.FC = () => {
           case "offered":
             color = "blue";
             text = "已offer";
+            break;
+          case "unKnown":
+            color = "lightgray";
+            text = "长期未响应";
             break;
         }
 
