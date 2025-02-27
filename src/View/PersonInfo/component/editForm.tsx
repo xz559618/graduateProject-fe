@@ -83,7 +83,7 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
         },
       },
     ];
-  } else {
+  } else if (theme === "工作/实习经历") {
     fields = [
       {
         type: "input",
@@ -125,6 +125,14 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
         },
       },
     ];
+  } else if (theme === "项目经历") {
+  } else if (theme === "资格证书") {
+  } else if (theme == "荣誉证书") {
+  } else if (theme == "社团/组织经历") {
+  } else if (theme == "教育经历") {
+  } else if (theme == "自我评价") {
+  } else if (theme == "专业技能") {
+  } else {
   }
 
   return (
