@@ -3,13 +3,17 @@ import { Form, Input, Button, Select, Table, DatePicker, Space } from "antd";
 import type { TableColumnsType, TableProps, FormItemProps } from "antd";
 import TextArea from "antd/es/input/TextArea";
 
+const { RangePicker } = DatePicker; // 从 DatePicker 中解构出 RangePicker
+
 type FieldType =
   | "input"
   | "select"
   | "datePicker"
+  | "rangePicker" // 添加时间段选择器类型
   | "table"
   | "button"
-  | "TextArea";
+  | "TextArea"
+  | "datePeriodCom" 
 
 interface FieldConfig extends FormItemProps {
   type: FieldType;
@@ -98,6 +102,12 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
             return (
               <Form.Item {...commonProps} key={index}>
                 <DatePicker />
+              </Form.Item>
+            );
+          case "rangePicker":
+            return (
+              <Form.Item {...commonProps} key={index}>
+                <RangePicker />
               </Form.Item>
             );
           case "table":

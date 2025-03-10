@@ -1,5 +1,6 @@
 import React from "react";
 import { Typography, Row, Col, Button } from "antd";
+import moment from "moment";
 
 const { Text, Title } = Typography;
 
@@ -10,16 +11,21 @@ interface DatePeriodComProps {
   description: string;
   contribution: string;
   handleEditClick: (item?: any) => void;
+  timeRange: [Date, Date];
 }
 
 const DatePeriodCom: React.FC<DatePeriodComProps> = ({
   company,
   position,
   time,
+  timeRange,
   description,
   contribution,
   handleEditClick,
 }) => {
+  const formattedTimePeriod = timeRange
+    ? timeRange.map((date) => moment(date).format("YYYY-MM-DD")).join(" 至 ")
+    : "";
   return (
     <div style={{ marginBottom: 16 }}>
       {/* 第一行：公司/项目名称 */}
@@ -49,7 +55,7 @@ const DatePeriodCom: React.FC<DatePeriodComProps> = ({
           <Text strong>{position}</Text>
         </Col>
         <Col>
-          <Text type="secondary">{time}</Text>
+          <Text type="secondary">{formattedTimePeriod}</Text>
         </Col>
       </Row>
 

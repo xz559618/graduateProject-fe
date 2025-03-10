@@ -3,6 +3,7 @@ import { Collapse, CollapseProps, List } from "antd";
 import EditForm from "./editForm";
 import ReadForm from "./readForm";
 import DatePeriodCom from "./datePeriodCom";
+import moment from "moment";
 
 interface detailListItemProps {
   item: any;
@@ -38,7 +39,7 @@ const DetailListItem: React.FC<detailListItemProps> = ({
     );
   } else if (item == "资格证书" || item == "获得荣誉") {
     return <>{item == "资格证书" ? <>资格证书</> : <>获得荣誉</>}</>;
-  } else {
+  } else if (item == "校内jingli") {
     const items: CollapseProps["items"] = [
       {
         key: "1",
@@ -50,6 +51,7 @@ const DetailListItem: React.FC<detailListItemProps> = ({
             time="2020年1月 - 至今"
             description="负责公司内部管理系统的前端开发工作，使用React和Ant Design进行开发。"
             contribution="优化了系统的性能，提升了用户体验，并参与了多个重要功能的开发。"
+            timeRange={[moment("2022-01-01"), moment("2022-12-31")]}
             handleEditClick={() => {
               const currentItem = items.find((item) => item.key === "1");
               handleEditClick(currentItem);

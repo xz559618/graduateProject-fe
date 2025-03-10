@@ -96,9 +96,9 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
         name: "position",
       },
       {
-        type: "input",
-        label: "时间",
-        name: "time",
+        type: "rangePicker",
+        label: "选择时间段",
+        name: "timeRange",
       },
       {
         type: "TextArea",
@@ -126,10 +126,123 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
       },
     ];
   } else if (theme === "项目经历") {
+    fields = [
+      {
+        type: "input",
+        label: "项目名称",
+        name: "company",
+      },
+      {
+        type: "input",
+        label: "职务",
+        name: "position",
+      },
+      {
+        type: "rangePicker",
+        label: "选择时间段",
+        name: "timeRange",
+      },
+      {
+        type: "TextArea",
+        label: "描述",
+        name: "description",
+      },
+      {
+        type: "TextArea",
+        label: "贡献",
+        name: "contribution",
+      },
+      {
+        type: "button",
+        buttonText: "保存",
+        buttonOnClick: (formData) => {
+          console.log("表单数据:", formData); // 打印表单数据
+        },
+      },
+      {
+        type: "button",
+        buttonText: "取消",
+        buttonOnClick: () => {
+          onCancel && onCancel(); // 处理取消操作
+        },
+      },
+    ];
   } else if (theme === "资格证书") {
   } else if (theme == "荣誉证书") {
   } else if (theme == "社团/组织经历") {
+    fields = [
+      {
+        type: "input",
+        label: "社团/组织名称",
+        name: "company",
+      },
+      {
+        type: "input",
+        label: "职务",
+        name: "position",
+      },
+      {
+        type: "rangePicker",
+        label: "选择时间段",
+        name: "timeRange",
+      },
+      {
+        type: "TextArea",
+        label: "描述",
+        name: "description",
+      },
+      {
+        type: "TextArea",
+        label: "贡献",
+        name: "contribution",
+      },
+      {
+        type: "button",
+        buttonText: "保存",
+        buttonOnClick: (formData) => {
+          console.log("表单数据:", formData); // 打印表单数据
+        },
+      },
+      {
+        type: "button",
+        buttonText: "取消",
+        buttonOnClick: () => {
+          onCancel && onCancel(); // 处理取消操作
+        },
+      },
+    ];
   } else if (theme == "教育经历") {
+    fields = [
+      {
+        type: "input",
+        label: "院校",
+        name: "company",
+      },
+      {
+        type: "input",
+        label: "学历",
+        name: "position",
+      },
+      {
+        type: "rangePicker",
+        label: "选择时间段",
+        name: "timeRange",
+      },
+      {
+        type: "button",
+        buttonText: "保存",
+        buttonOnClick: (formData) => {
+          console.log("表单数据:", formData); // 打印表单数据
+        },
+      },
+      {
+        type: "button",
+        buttonText: "取消",
+        buttonOnClick: () => {
+          onCancel && onCancel(); // 处理取消操作
+        },
+      },
+    ];
   } else if (theme == "自我评价") {
   } else if (theme == "专业技能") {
   } else {
