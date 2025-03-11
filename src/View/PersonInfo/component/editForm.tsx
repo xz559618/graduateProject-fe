@@ -1,6 +1,6 @@
 import React from "react";
 import DynamicForm from "../../../common/DynamicForm/dynamicForm"; // Adjust the import path as necessary
-
+import AddTag from "./addTag";
 interface EditFormProps {
   item?: any;
   theme?: string;
@@ -167,8 +167,75 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
         },
       },
     ];
-  } else if (theme === "资格证书") {
-  } else if (theme == "荣誉证书") {
+  } else if (theme === "获得荣誉") {
+    fields = [
+      {
+        type: "input",
+        label: "证书名称",
+        name: "qualificationsTitle",
+      },
+      {
+        type: "input",
+        label: "级别",
+        name: "level",
+      },
+      {
+        type: "datePicker",
+        label: "获取时间",
+        name: "datePicker",
+      },
+      {
+        type: "TextArea",
+        label: "描述",
+        name: "description",
+      },
+      {
+        type: "button",
+        buttonText: "保存",
+        buttonOnClick: (formData) => {
+          console.log("表单数据:", formData); // 打印表单数据
+        },
+      },
+      {
+        type: "button",
+        buttonText: "取消",
+        buttonOnClick: () => {
+          onCancel && onCancel(); // 处理取消操作
+        },
+      },
+    ];
+  } else if (theme == "资格证书") {
+    fields = [
+      {
+        type: "input",
+        label: "证书名称",
+        name: "qualificationsTitle",
+      },
+      {
+        type: "datePicker",
+        label: "获取时间",
+        name: "datePicker",
+      },
+      {
+        type: "TextArea",
+        label: "描述",
+        name: "description",
+      },
+      {
+        type: "button",
+        buttonText: "保存",
+        buttonOnClick: (formData) => {
+          console.log("表单数据:", formData); // 打印表单数据
+        },
+      },
+      {
+        type: "button",
+        buttonText: "取消",
+        buttonOnClick: () => {
+          onCancel && onCancel(); // 处理取消操作
+        },
+      },
+    ];
   } else if (theme == "社团/组织经历") {
     fields = [
       {
@@ -244,8 +311,52 @@ const EditForm: React.FC<EditFormProps> = ({ item, theme, onCancel }) => {
       },
     ];
   } else if (theme == "自我评价") {
+    fields = [
+      {
+        type: "input",
+        label: "关键字",
+        name: "keyWords",
+      },
+      {
+        type: "TextArea",
+        label: "内容",
+        name: "description",
+      },
+      {
+        type: "button",
+        buttonText: "保存",
+        buttonOnClick: (formData) => {
+          console.log("表单数据:", formData); // 打印表单数据
+        },
+      },
+      {
+        type: "button",
+        buttonText: "取消",
+        buttonOnClick: () => {
+          onCancel && onCancel(); // 处理取消操作
+        },
+      },
+    ];
   } else if (theme == "专业技能") {
-  } else {
+    // 做成tag形式
+    const initialTags = ["Tag1", "Tag2", "Tag3"];
+    fields = [
+      {
+        type: "render",
+        label: "Tags",
+        name: "tags",
+        render: (field, form) => {
+          return <AddTag initialTags={initialTags} />;
+        },
+      },
+      {
+        type: "button",
+        buttonText: "Submit",
+        buttonOnClick: (formData) => {
+          console.log("Form Data:", formData);
+        },
+      },
+    ];
   }
 
   return (

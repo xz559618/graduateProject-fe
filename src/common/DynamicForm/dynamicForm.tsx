@@ -1,6 +1,11 @@
 import React from "react";
 import { Form, Input, Button, Select, Table, DatePicker, Space } from "antd";
-import type { TableColumnsType, TableProps, FormItemProps } from "antd";
+import type {
+  TableColumnsType,
+  TableProps,
+  FormItemProps,
+  FormInstance,
+} from "antd";
 import TextArea from "antd/es/input/TextArea";
 
 const { RangePicker } = DatePicker; // 从 DatePicker 中解构出 RangePicker
@@ -13,7 +18,7 @@ type FieldType =
   | "table"
   | "button"
   | "TextArea"
-  | "datePeriodCom" 
+  | "datePeriodCom";
 
 interface FieldConfig extends FormItemProps {
   type: FieldType;
@@ -27,6 +32,7 @@ interface FieldConfig extends FormItemProps {
   buttonOnClick?: (formData: any) => void;
   value?: any;
   initialValue?: any;
+  render?: (field: FieldConfig, form: FormInstance<any>) => React.ReactNode;
 }
 
 interface DynamicFormProps {
@@ -84,6 +90,14 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
           style: { width: field.width || "100%" },
           initialValue: field.initialValue,
         };
+
+        if (field.render) {
+          return (
+            <Form.Item {...commonProps} key={index}>
+              {field.render(field, form)}
+            </Form.Item>
+          );
+        }
 
         switch (field.type) {
           case "input":
