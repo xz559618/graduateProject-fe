@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-const mmToPx = (mm) => mm * 3.7795275591; // Convert millimeters to pixels (1mm = 3.7795275591px)
+const mmToPx = (mm) => mm * 3; // Convert millimeters to pixels (1mm = 3.7795275591px)
 
 const PDFTemplate = ({ name, position, education }) => {
   return (
     <div
       id="pdf-template"
       style={{
-        width: "210mm",
-        height: "297mm",
-        padding: "20mm",
+        width: "105mm",
+        height: "148.5mm",
+        padding: "2mm",
         boxSizing: "border-box",
+        backgroundColor: "white", // 内容背景颜色
+        boxShadow: "inset 0 0 0 2mm lightblue", // 使用 box-shadow 模拟 padding 颜色
       }}
     >
       <h1>{name}</h1>
@@ -29,7 +31,7 @@ const PDFTemplate = ({ name, position, education }) => {
   );
 };
 
-const App = () => {
+const pdfModel = () => {
   const [name, setName] = useState("John Doe");
   const [position, setPosition] = useState("Software Engineer");
   const [education, setEducation] = useState([
@@ -42,6 +44,10 @@ const App = () => {
     width: 0,
     height: 0,
   });
+
+  useEffect(() => {
+    generatePDF();
+  }, []);
 
   const generatePDF = async () => {
     const pdfTemplate = document.getElementById("pdf-template");
@@ -70,48 +76,41 @@ const App = () => {
     <div>
       <PDFTemplate name={name} position={position} education={education} />
       <button onClick={generatePDF}>Generate PDF</button>
-
-      {previewMode && (
+      {/* <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <div
           style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            backgroundColor: "white",
+            padding: "20px",
+            borderRadius: "8px",
+            textAlign: "center",
           }}
         >
-          <div
+          <h2>PDF Preview</h2>
+          <img
+            src={imgData}
+            alt="PDF Preview"
             style={{
-              backgroundColor: "white",
-              padding: "20px",
-              borderRadius: "8px",
-              textAlign: "center",
+              width: `${mmToPx(210)}px`,
+              height: "auto",
+              maxHeight: `${mmToPx(297)}px`,
             }}
-          >
-            <h2>PDF Preview</h2>
-            <img
-              src={imgData}
-              alt="PDF Preview"
-              style={{
-                width: `${mmToPx(210)}px`,
-                height: "auto",
-                maxHeight: `${mmToPx(297)}px`,
-              }}
-            />
-            <div>
-              <button onClick={downloadPDF}>Download PDF</button>
-              <button onClick={closePreview}>Close Preview</button>
-            </div>
+          />
+          <div>
+            <button onClick={downloadPDF}>Download PDF</button>
+            <button onClick={closePreview}>Close Preview</button>
           </div>
         </div>
-      )}
+      </div> */}
     </div>
   );
 };
 
-export default App;
+export default pdfModel;
